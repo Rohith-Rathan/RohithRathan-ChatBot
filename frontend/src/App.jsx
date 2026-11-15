@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+
 const SUGGESTIONS = [
   "How many times did Rohith submit the assignment?",
   "Who are the top submitters?",
@@ -37,7 +39,7 @@ export default function App() {
     try {
       // Only send plain role/content pairs, never error bubbles
       const history = next.filter((m) => !m.error).map(({ role, content }) => ({ role, content }));
-      const res = await fetch("/api/chat", {
+      const res = await fetch(`${API_BASE_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history }),
@@ -49,14 +51,14 @@ export default function App() {
       } catch {}
       if (!res.ok || !data) {
         isError = true;
-        reply = `Backend returned HTTP ${res.status}. Is it running on port 8001?`;
+        reply = `Backend returned HTTP ${res.status}. Check that VITE_API_BASE_URL points to the deployed chat API.`;
       } else {
         reply = toText(data.reply ?? "No reply received.");
         isError = !!data.error;
       }
     } catch {
       isError = true;
-      reply = "Could not reach the backend. Start it with: python -m uvicorn main:app --port 8001";
+      reply = "Could not reach the chat API. Check the backend URL and that the API service is running.";
     }
     setMessages([...next, { role: "assistant", content: reply, error: isError }]);
     setLoading(false);

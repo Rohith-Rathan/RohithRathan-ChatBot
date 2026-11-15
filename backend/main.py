@@ -19,6 +19,12 @@ client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
 SYSTEM = (
     "You are an assistant for the Trainer Central assignment dashboard. Answer questions about learners' "
     "assignment submissions using ONLY data from the tools. Each entry is a notification email; learners "

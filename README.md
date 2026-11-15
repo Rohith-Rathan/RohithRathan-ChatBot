@@ -106,3 +106,16 @@ is read-only. The email text is passed to Claude as untrusted data inside `<emai
   The dashboard `sender` is always "Rohith Rathan".
 - The scheduled task runs only while the user is logged on, because the OAuth token lives in the
   user's project folder and no password is stored.
+
+## Chat app deployment
+
+The Vite proxy in `frontend/vite.config.js` is for local development only. For production, deploy
+the FastAPI service separately from the Vercel frontend:
+
+1. In Render, create a Blueprint from this repository using `render.yaml`. Set `ANTHROPIC_API_KEY`
+  when Render prompts for it, then wait for the service to become healthy at `/health`.
+2. In the Vercel project settings, add `VITE_API_BASE_URL` with the Render service's origin, such as
+  `https://your-chat-api.onrender.com` (no path suffix is needed). Enable it for the production
+  environment and redeploy the frontend.
+
+For local development, leave `VITE_API_BASE_URL` unset; Vite will proxy `/api` to port 8001.
