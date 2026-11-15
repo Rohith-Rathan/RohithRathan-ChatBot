@@ -1,0 +1,11 @@
+# Claude Prompt for building GenAI dashboard
+
+The prompt given to Claude (Claude Code) to build this application. The dashboard API's
+`openapi.json` was attached to it.
+
+```text
+Write a Python script that connects to my Google Drive using Google Drive API and OAuth (credentials.json), reads all .txt files from the folder trainer_central_assignments (folder ID: 1u616cv0oZK4wK5EcnxPahgkEi0ypjzvU), and analyzes each file using the Anthropic API with claude-sonnet-5-5 to identify emails containing designerrohith@gmail.com. For matching emails, extract assignment name, submission date, time, status and relevant details, then POST them to https://trainer-central-assignments-api.onrender.com/api/entries. Use the attached openapi.json to determine the exact payload schema and authentication requirements. Use SQLite to prevent duplicate submissions, handle errors and empty files, and log results. Store credentials securely and make the application run locally on Windows, with automatic execution every 30 minutes using Windows Task Scheduler. First inspect the project and available files, ask for missing configuration, and test Google Drive connectivity before implementing the remaining workflow. Store all sensitive credentials and configuration in a .env file, including the Anthropic API key, Google Drive folder ID and dashboard API credentials. Add .env, credentials.json, token.json, SQLite databases, logs and virtual environment folders to .gitignore. Provide a .env.example with placeholder values only. Never hardcode or commit secrets.
+```
+
+# Claude Prompt for building chatbot
+In this project, create a chatbot using React and keep the code in a folder called 'frontend' and keep the backend in a folder called 'backend' which should be powered by FastAPI so that in the UI chatbot, I can ask conversational queries such as "how many times did Rohith submit the assignment" and it should be able to pass the query to the backend and route it to the respective APIs of the Dashboard which have been provided as an attachment.[paste complete openapi.json] The backend should pull the data from the respective API to fetch the data and then pass that to the LLM to provide a response to the user in the chatbot in the UI. Keep it simple in both frontend and backend. I just want this for a simple demo.

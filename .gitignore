@@ -1,0 +1,58 @@
+# Secrets and OAuth material
+.env
+.env.*
+!.env.example
+credentials.json
+client_secret*.json
+token.json
+
+# Local state
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# OS
+desktop.ini
+Thumbs.db
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+credentials.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+build/
+
+# IDE
+.vscode/
+
+# Windows
+desktop.ini
+Thumbs.db
+
+# Logs
+*.log
