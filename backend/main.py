@@ -43,7 +43,7 @@ MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5").strip()
 FRONTEND_ORIGINS = os.getenv(
     "FRONTEND_ORIGINS",
     "http://localhost:5173,"
-    "https://rohith-rathan-chat-bot-git-main-rohith-rathans-projects.vercel.app"
+    "https://rohith-rathan-chat-qaqr6w8we-rohith-rathans-projects.vercel.app/"
 )
 
 ALLOWED_ORIGINS = [
