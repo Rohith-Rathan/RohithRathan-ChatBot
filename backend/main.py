@@ -9,6 +9,7 @@ import logging
 import os
 from pathlib import Path
 from typing import Literal
+import time
 
 import anthropic
 import requests
@@ -224,15 +225,22 @@ def call_dashboard(name: str, args: dict):
     url = BASE_URL + PATHS[name]
 
     try:
+        start_time = time.perf_counter()
+
         response = dashboard_session.get(
             url,
             params=params,
             timeout=(10, 90)
         )
-
+        logger.info(
+                    "Dashboard API response time (%s): %.2f seconds",
+                    name,
+                    time.perf_counter() - start_time
+        )
         response.raise_for_status()
 
         data = response.json()
+
 
     except requests.Timeout:
         logger.exception("Dashboard API request timed out: %s", name)
@@ -355,7 +363,6 @@ def chat(req: ChatRequest):
             detail="Something went wrong while processing your request."
         )
 
-
 # --------------------------------------------------
 # 10. Claude tool-use conversation loop
 # --------------------------------------------------
@@ -373,6 +380,9 @@ def run_chat(req: ChatRequest):
 
     while True:
 
+        # Start measuring Claude API response time.
+        start_time = time.perf_counter()
+
         # Send conversation to Claude.
         response = client.messages.create(
             model=MODEL,
@@ -381,8 +391,13 @@ def run_chat(req: ChatRequest):
             tools=TOOLS,
             messages=messages
         )
-
+        # Log Claude API response time.
+        logger.info(
+            "Claude API response time: %.2f seconds",
+            time.perf_counter() - start_time
+        )
         # Claude has completed its answer.
+        
         if response.stop_reason != "tool_use":
 
             reply = "".join(

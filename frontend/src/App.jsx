@@ -39,11 +39,17 @@ export default function App() {
     try {
       // Only send plain role/content pairs, never error bubbles
       const history = next.filter((m) => !m.error).map(({ role, content }) => ({ role, content }));
+      const requestStart = performance.now();
+      console.log("[Chat] Sending request to backend...");
       const res = await fetch(`${API_BASE_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history }),
       });
+      const requestEnd = performance.now();
+      console.log(
+        `[Chat] Backend total response time: ${((requestEnd - requestStart) / 1000).toFixed(2)} seconds`
+      );
       const raw = await res.text();
       let data = null;
       try {
